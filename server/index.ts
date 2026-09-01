@@ -141,7 +141,7 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", geminiConfigured: !!genAI, timestamp: new Date().toISOString() });
 });
 
-app.listen(port, () => {
-  console.log(`🏛️ Census 2027 Gemini Proxy listening on port ${port}`);
+app.listen(port, "127.0.0.1", () => {
+  console.log(`🏛️ Census 2027 Gemini Proxy listening on http://127.0.0.1:${port}`);
 });
 

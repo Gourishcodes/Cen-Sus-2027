@@ -7,10 +7,9 @@ export default function CivicRowIllustration() {
     <svg
       viewBox="0 0 680 230"
       width="100%"
-      height="auto"
       role="img"
       aria-label="Digital Census 2027 sovereign digital public infrastructure illustration"
-      style={{ color: "var(--color-navy)", display: "block", margin: "0 auto" }}
+      style={{ color: "var(--color-navy)", display: "block", margin: "0 auto", height: "auto" }}
     >
       <defs>
         <linearGradient id="flagAccent" x1="0" y1="0" x2="1" y2="0">

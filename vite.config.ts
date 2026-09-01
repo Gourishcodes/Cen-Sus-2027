@@ -14,7 +14,7 @@ export default defineConfig({
       // backend you deploy functions/gemini-proxy.ts as (Cloud Function /
       // Cloud Run) — point your hosting rewrite at the same path.
       "/api": {
-        target: "http://localhost:5174",
+        target: "http://127.0.0.1:5174",
         changeOrigin: true,
       },
     },
