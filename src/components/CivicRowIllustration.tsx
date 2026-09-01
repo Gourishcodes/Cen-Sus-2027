@@ -1,0 +1,121 @@
+// Stylized Digital Census of India Hero Graphic
+// Incorporates the India geographic silhouette watermark, sovereign security shield with Ashoka Chakra,
+// and the digital census network connecting households to the National Data Centre.
+
+export default function CivicRowIllustration() {
+  return (
+    <svg
+      viewBox="0 0 680 230"
+      width="100%"
+      height="auto"
+      role="img"
+      aria-label="Digital Census 2027 sovereign digital public infrastructure illustration"
+      style={{ color: "var(--color-navy)", display: "block", margin: "0 auto" }}
+    >
+      <defs>
+        <linearGradient id="flagAccent" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#FF9933" />
+          <stop offset="50%" stopColor="#CBD5E1" />
+          <stop offset="100%" stopColor="#138808" />
+        </linearGradient>
+      </defs>
+
+      {/* Faint India Geographic Map Silhouette Watermark in Background */}
+      <g opacity="0.06" transform="translate(240, 10) scale(0.38)" fill="var(--color-navy)" stroke="none">
+        <path d="M 215,10 L 255,20 L 260,70 L 235,110 L 280,130 L 330,140 L 365,160 L 400,140 L 465,140 L 475,190 L 435,215 L 400,200 L 380,240 L 340,270 L 365,300 L 380,350 L 340,380 L 285,460 L 265,540 L 235,560 L 230,520 L 210,500 L 195,430 L 175,340 L 135,350 L 105,320 L 140,240 L 175,220 L 205,160 L 180,80 Z" />
+      </g>
+
+      {/* Background Subtle Ashoka Chakra Concentric Geometry */}
+      <g opacity="0.10" transform="translate(340, 115)">
+        <circle r="95" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <circle r="85" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
+        <circle r="20" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        {Array.from({ length: 24 }).map((_, i) => (
+          <line
+            key={i}
+            x1="0"
+            y1="0"
+            x2={95 * Math.cos((i * 15 * Math.PI) / 180)}
+            y2={95 * Math.sin((i * 15 * Math.PI) / 180)}
+            stroke="currentColor"
+            strokeWidth="1.2"
+          />
+        ))}
+      </g>
+
+      {/* Base Foundation Grid Line */}
+      <line x1="30" y1="195" x2="650" y2="195" stroke="var(--color-line)" strokeWidth="2" />
+
+      {/* Left: Indian Household & Citizens */}
+      <g transform="translate(80, 55)" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        {/* House Outline */}
+        <path d="M10 65 L60 25 L110 65" />
+        <path d="M25 60 L25 135 L95 135 L95 60" />
+        <rect x="48" y="90" width="24" height="45" rx="2" />
+        <line x1="60" y1="90" x2="60" y2="135" />
+
+        {/* Citizen Figures */}
+        <circle cx="140" cy="85" r="10" />
+        <path d="M120 135 C120 110 160 110 160 135" />
+        <circle cx="170" cy="95" r="8" />
+        <path d="M155 135 C155 115 185 115 185 135" />
+
+        {/* Digital Verification Check Badge */}
+        <circle cx="105" cy="40" r="12" fill="var(--color-success-soft)" stroke="var(--color-success)" strokeWidth="1.8" />
+        <path d="M99 40 L103 44 L111 36" stroke="var(--color-success)" strokeWidth="2" />
+      </g>
+
+      {/* Central Connector: Sovereign Shield with Integrated Ashoka Chakra Motif */}
+      <g transform="translate(290, 68)" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        {/* Digital wave connections */}
+        <path d="M-10 50 C20 20 80 20 110 50" strokeDasharray="4 4" stroke="var(--color-accent)" />
+        <path d="M0 65 C30 35 70 35 100 65" strokeDasharray="4 4" stroke="var(--color-accent)" />
+
+        {/* Sovereign Shield Card */}
+        <rect x="25" y="24" width="50" height="60" rx="8" fill="var(--color-paper-raised)" stroke="var(--color-navy)" strokeWidth="2" />
+        
+        {/* Ashoka Chakra Motif inside Shield */}
+        <g transform="translate(50, 54)">
+          <circle r="16" fill="none" stroke="var(--color-navy)" strokeWidth="1.4" />
+          <circle r="4" fill="var(--color-navy)" />
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+            <line
+              key={deg}
+              x1="0"
+              y1="0"
+              x2={16 * Math.cos((deg * Math.PI) / 180)}
+              y2={16 * Math.sin((deg * Math.PI) / 180)}
+              stroke="var(--color-navy)"
+              strokeWidth="1.2"
+            />
+          ))}
+        </g>
+      </g>
+
+      {/* Right: Sovereign Cloud / National Census Data Centre */}
+      <g transform="translate(460, 50)" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        {/* Data Tower */}
+        <rect x="30" y="30" width="100" height="110" rx="6" fill="var(--color-paper-raised)" stroke="var(--color-navy)" />
+        <line x1="30" y1="65" x2="130" y2="65" stroke="var(--color-line)" />
+        <line x1="30" y1="100" x2="130" y2="100" stroke="var(--color-line)" />
+
+        {/* Server status indicators */}
+        <circle cx="45" cy="48" r="3.5" fill="#0d7c4d" stroke="none" />
+        <circle cx="60" cy="48" r="3.5" fill="#e36414" stroke="none" />
+        <line x1="80" y1="48" x2="115" y2="48" stroke="currentColor" strokeWidth="2" />
+
+        <circle cx="45" cy="83" r="3.5" fill="#0d7c4d" stroke="none" />
+        <circle cx="60" cy="83" r="3.5" fill="#0d7c4d" stroke="none" />
+        <line x1="80" y1="83" x2="115" y2="83" stroke="currentColor" strokeWidth="2" />
+
+        <circle cx="45" cy="118" r="3.5" fill="#0d7c4d" stroke="none" />
+        <circle cx="60" cy="118" r="3.5" fill="#0d7c4d" stroke="none" />
+        <line x1="80" y1="118" x2="115" y2="118" stroke="currentColor" strokeWidth="2" />
+
+        {/* Sovereign Flag Ribbon */}
+        <path d="M80 15 L80 30" stroke="var(--color-accent)" strokeWidth="2" />
+        <rect x="80" y="15" width="24" height="10" fill="url(#flagAccent)" stroke="none" />
+      </g>
+    </svg>
+  );
+}

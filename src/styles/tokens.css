@@ -1,0 +1,54 @@
+:root {
+  /* Indian Civic Tech Color System — Sovereign Deep Navy, Saffron & Ashoka Blue */
+  --color-paper: #f8fafc;
+  --color-paper-raised: #ffffff;
+  --color-paper-muted: #f1f5f9;
+  
+  --color-ink: #0b1b3d;          /* Deep Sovereign Navy */
+  --color-ink-soft: #475569;     /* Slate / Secondary */
+  --color-ink-subtle: #94a3b8;   /* Light Slate */
+  
+  --color-accent: #e36414;       /* Kesari / Vibrant Indian Saffron */
+  --color-accent-hover: #cf550c;
+  --color-accent-soft: #fff3ec;  /* Soft Saffron Wash */
+  --color-accent-border: #fbd5c0;
+
+  --color-navy: #0f2b5c;         /* Institutional Navy */
+  --color-navy-soft: #eef4ff;
+  --color-navy-border: #c7d9fa;
+
+  --color-success: #0d7c4d;      /* Harit Green */
+  --color-success-soft: #e8f7ee;
+  --color-success-border: #b8e8cc;
+  
+  --color-error: #c5221f;
+  --color-error-soft: #fde8e7;
+  
+  --color-line: #e2e8f0;         /* Modern crisp borders */
+  --color-line-dark: #cbd5e1;
+
+  /* Typography — Plus Jakarta Sans for Institutional Authority + IBM Plex Sans */
+  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-body: "IBM Plex Sans", "Noto Sans Devanagari", system-ui, sans-serif;
+
+  --step-0: 1rem;
+  --step-1: 1.15rem;
+  --step-2: 1.5rem;
+  --step-3: 2.25rem;
+  --step-4: 3rem;
+
+  /* Layout */
+  --content-max: 76rem;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(11, 27, 61, 0.05);
+  --shadow-md: 0 4px 14px rgba(11, 27, 61, 0.08);
+  --shadow-lg: 0 10px 25px rgba(11, 27, 61, 0.12);
+}
