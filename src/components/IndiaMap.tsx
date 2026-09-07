@@ -1,117 +1,13 @@
 import { useState } from "react";
 import type { StateSchedule } from "../types/census";
 
+import { INDIA_GEO_STATES } from "../data/indiaGeoData";
+
 export interface IndiaMapProps {
   statesData: StateSchedule[];
   selectedStateCode: string | null;
   onSelectState: (stateCode: string) => void;
 }
-
-interface StatePath {
-  code: string;
-  name: string;
-  path: string;
-  center: [number, number]; // [x, y] for label / centroid
-}
-
-const INDIA_STATE_PATHS: StatePath[] = [
-  {
-    code: "MH",
-    name: "Maharashtra",
-    center: [230, 420],
-    path: "M 175,370 L 220,360 L 270,365 L 310,380 L 320,410 L 290,445 L 260,460 L 210,480 L 190,470 L 180,440 L 165,405 Z",
-  },
-  {
-    code: "UP",
-    name: "Uttar Pradesh",
-    center: [295, 255],
-    path: "M 230,225 L 280,210 L 330,220 L 365,245 L 350,285 L 315,300 L 265,290 L 245,260 Z",
-  },
-  {
-    code: "TN",
-    name: "Tamil Nadu",
-    center: [255, 595],
-    path: "M 230,550 L 270,545 L 280,580 L 265,635 L 235,650 L 230,610 L 220,570 Z",
-  },
-  {
-    code: "WB",
-    name: "West Bengal",
-    center: [385, 330],
-    path: "M 370,280 L 395,275 L 400,320 L 380,365 L 360,355 L 365,315 Z",
-  },
-  {
-    code: "KA",
-    name: "Karnataka",
-    center: [215, 520],
-    path: "M 195,475 L 235,465 L 255,505 L 250,550 L 220,560 L 190,520 Z",
-  },
-  {
-    code: "GJ",
-    name: "Gujarat",
-    center: [140, 340],
-    path: "M 115,295 L 165,300 L 185,335 L 175,375 L 140,380 L 135,360 L 105,355 L 100,335 L 125,325 L 110,305 Z",
-  },
-  {
-    code: "RJ",
-    name: "Rajasthan",
-    center: [175, 250],
-    path: "M 140,210 L 205,195 L 235,230 L 220,285 L 170,305 L 130,270 Z",
-  },
-  {
-    code: "MP",
-    name: "Madhya Pradesh",
-    center: [250, 330],
-    path: "M 205,295 L 275,285 L 320,315 L 305,370 L 245,365 L 195,340 Z",
-  },
-  {
-    code: "AP",
-    name: "Andhra Pradesh",
-    center: [285, 490],
-    path: "M 265,455 L 310,430 L 335,470 L 285,545 L 255,510 Z",
-  },
-  {
-    code: "TG",
-    name: "Telangana",
-    center: [265, 430],
-    path: "M 245,395 L 295,390 L 305,430 L 265,455 L 235,435 Z",
-  },
-  {
-    code: "KL",
-    name: "Kerala",
-    center: [210, 605],
-    path: "M 205,565 L 225,570 L 230,625 L 210,645 L 200,600 Z",
-  },
-  {
-    code: "OD",
-    name: "Odisha",
-    center: [345, 390],
-    path: "M 320,345 L 365,345 L 380,390 L 340,425 L 315,395 Z",
-  },
-  {
-    code: "PB",
-    name: "Punjab & Haryana",
-    center: [210, 175],
-    path: "M 185,140 L 210,138 L 245,130 L 250,155 L 260,185 L 235,195 L 195,205 L 180,165 Z",
-  },
-  {
-    code: "BR",
-    name: "Bihar",
-    center: [345, 275],
-    path: "M 325,245 L 375,245 L 375,285 L 330,290 Z",
-  },
-  {
-    code: "JK",
-    name: "Jammu & Kashmir / Ladakh",
-    center: [225, 85],
-    path: "M 175,105 L 180,70 L 205,35 L 225,30 L 245,40 L 265,65 L 268,115 L 245,130 L 210,138 Z",
-  },
-  {
-    code: "NE",
-    name: "North East States",
-    center: [435, 255],
-    path: "M 390,240 L 405,215 L 435,195 L 470,200 L 485,245 L 460,285 L 440,305 L 415,280 L 405,250 Z",
-  },
-];
 
 // Helper to determine status, accessible symbol, and pattern
 function getStatusDetails(stateCode: string, statesData: StateSchedule[]) {
@@ -151,7 +47,7 @@ function getStatusDetails(stateCode: string, statesData: StateSchedule[]) {
 export default function IndiaMap({ statesData, selectedStateCode, onSelectState }: IndiaMapProps) {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
-  const hoveredPath = INDIA_STATE_PATHS.find((s) => s.code === hoveredState);
+  const hoveredPath = INDIA_GEO_STATES.find((s) => s.code === hoveredState);
   const hoveredSchedule = statesData.find((s) => s.stateCode === hoveredState);
 
   return (
@@ -201,16 +97,16 @@ export default function IndiaMap({ statesData, selectedStateCode, onSelectState 
         style={{
           position: "relative",
           width: "100%",
-          maxWidth: "520px",
+          maxWidth: "540px",
           margin: "0 auto",
-          aspectRatio: "500 / 680",
+          aspectRatio: "800 / 900",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <svg
-          viewBox="80 30 420 640"
+          viewBox="0 0 800 900"
           style={{ width: "100%", height: "100%", filter: "drop-shadow(0 4px 12px rgba(11,27,61,0.06))" }}
           aria-label="Interactive Map of India showing Census 2027 enumeration schedule"
           role="img"
@@ -237,16 +133,16 @@ export default function IndiaMap({ statesData, selectedStateCode, onSelectState 
           </defs>
 
           {/* Subtle Ashok Chakra Geometric Motif Watermark in Background */}
-          <g opacity="0.05" transform="translate(260, 360)">
-            <circle r="120" fill="none" stroke="var(--color-ink)" strokeWidth="3" />
-            <circle r="110" fill="none" stroke="var(--color-ink)" strokeWidth="1" strokeDasharray="4 4" />
+          <g opacity="0.05" transform="translate(380, 480)">
+            <circle r="160" fill="none" stroke="var(--color-ink)" strokeWidth="3" />
+            <circle r="150" fill="none" stroke="var(--color-ink)" strokeWidth="1" strokeDasharray="4 4" />
             {Array.from({ length: 24 }).map((_, i) => (
               <line
                 key={i}
                 x1="0"
                 y1="0"
-                x2={120 * Math.cos((i * 15 * Math.PI) / 180)}
-                y2={120 * Math.sin((i * 15 * Math.PI) / 180)}
+                x2={160 * Math.cos((i * 15 * Math.PI) / 180)}
+                y2={160 * Math.sin((i * 15 * Math.PI) / 180)}
                 stroke="var(--color-ink)"
                 strokeWidth="1.5"
               />
@@ -254,7 +150,7 @@ export default function IndiaMap({ statesData, selectedStateCode, onSelectState 
           </g>
 
           {/* State Shapes with Micro-Interactions & Dual Status Encoding */}
-          {INDIA_STATE_PATHS.map((state) => {
+          {INDIA_GEO_STATES.map((state) => {
             const isSelected = selectedStateCode === state.code;
             const isHovered = hoveredState === state.code;
             const info = getStatusDetails(state.code, statesData);
@@ -313,11 +209,11 @@ export default function IndiaMap({ statesData, selectedStateCode, onSelectState 
                   textAnchor="middle"
                   dominantBaseline="central"
                   fill="#ffffff"
-                  fontSize="11"
+                  fontSize="10"
                   fontWeight="800"
                   fontFamily="var(--font-display)"
                   pointerEvents="none"
-                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}
+                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.75)" }}
                 >
                   {state.code}
                 </text>
@@ -331,7 +227,7 @@ export default function IndiaMap({ statesData, selectedStateCode, onSelectState 
                   fontWeight="700"
                   fontFamily="var(--font-display)"
                   pointerEvents="none"
-                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}
+                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.75)" }}
                 >
                   {info.symbol}
                 </text>
