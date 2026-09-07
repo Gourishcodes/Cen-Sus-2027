@@ -1,9 +1,12 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "../src/App";
 
 describe("Full Application Click-through Verification", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
   it("walks through Overview → Two Phases → State Schedule → Self-Enumeration → Privacy & Myths → Census in Numbers without errors", async () => {
     render(
       <MemoryRouter initialEntries={["/"]}>

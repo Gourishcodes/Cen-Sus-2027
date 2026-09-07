@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   /* Indian Civic Tech Color System — Sovereign Deep Navy, Saffron & Ashoka Blue */
   --color-paper: #f8fafc;
   --color-paper-raised: #ffffff;
@@ -51,4 +51,37 @@
   --shadow-sm: 0 1px 3px rgba(11, 27, 61, 0.05);
   --shadow-md: 0 4px 14px rgba(11, 27, 61, 0.08);
   --shadow-lg: 0 10px 25px rgba(11, 27, 61, 0.12);
+}
+
+[data-theme="dark"] {
+  --color-paper: #090e17;
+  --color-paper-raised: #131c2e;
+  --color-paper-muted: #0d1524;
+
+  --color-ink: #f8fafc;
+  --color-ink-soft: #94a3b8;
+  --color-ink-subtle: #64748b;
+
+  --color-accent: #f97316;
+  --color-accent-hover: #fb923c;
+  --color-accent-soft: rgba(249, 115, 22, 0.15);
+  --color-accent-border: rgba(249, 115, 22, 0.35);
+
+  --color-navy: #93c5fd;
+  --color-navy-soft: rgba(147, 197, 253, 0.15);
+  --color-navy-border: rgba(147, 197, 253, 0.3);
+
+  --color-success: #34d399;
+  --color-success-soft: rgba(52, 211, 153, 0.15);
+  --color-success-border: rgba(52, 211, 153, 0.3);
+
+  --color-error: #f87171;
+  --color-error-soft: rgba(248, 113, 113, 0.15);
+
+  --color-line: #1e293b;
+  --color-line-dark: #334155;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6);
 }

@@ -1,24 +1,11 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-dotenv.config({ path: ".env.local" });
-dotenv.config();
-
-const app = express();
-const port = process.env.PORT || 5174;
-
-app.use(cors());
-app.use(express.json());
+﻿import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getLocalFallback } from "../src/data/censusFallbacks";
 
 const apiKey = process.env.GEMINI_API_KEY;
 let genAI: GoogleGenerativeAI | null = null;
 
 if (apiKey && apiKey !== "your_api_key_here") {
   genAI = new GoogleGenerativeAI(apiKey);
-} else {
-  console.warn("⚠️ GEMINI_API_KEY is not set or placeholder. Operating in fallback mode.");
 }
 
 const SYSTEM_PROMPT = `
@@ -43,15 +30,70 @@ When answering:
 - Respond in the user's requested language if specified.
 `;
 
-import { getLocalFallback } from "../src/data/censusFallbacks";
+// In-memory rate limiting per IP: 10 requests / minute
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const MAX_REQUESTS_PER_WINDOW = 10;
 
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  if (!record || now > record.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    return true;
+  }
+  record.count += 1;
+  return false;
+}
 
-app.post("/api/gemini", async (req, res) => {
+export default async function handler(req: any, res: any) {
+  // CORS configuration
+  const origin = req.headers?.origin || "";
+  const host = req.headers?.host || "";
+  const isAllowedOrigin =
+    !origin ||
+    origin.includes("localhost") ||
+    origin.includes("127.0.0.1") ||
+    origin.endsWith(".vercel.app") ||
+    (host && origin.includes(host));
+
+  if (isAllowedOrigin && origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed. Use POST." });
+  }
+
+  // Basic IP-based rate limiting
+  const forwarded = req.headers?.["x-forwarded-for"];
+  const clientIp = typeof forwarded === "string" ? forwarded.split(",")[0].trim() : req.socket?.remoteAddress || "unknown";
+
+  if (isRateLimited(clientIp)) {
+    return res.status(429).json({
+      error: "Too many requests. Please wait a moment before sending another query.",
+      source: "fallback",
+    });
+  }
+
   try {
-    const { mode = "guidance", prompt = "", lang = "English" } = req.body;
+    const { mode = "guidance", prompt = "", lang = "English" } = req.body || {};
 
     if (!prompt || typeof prompt !== "string") {
       return res.status(400).json({ error: "A valid prompt string is required." });
+    }
+
+    if (prompt.length > 500) {
+      return res.status(400).json({ error: "Prompt exceeds maximum allowed length of 500 characters." });
     }
 
     if (!genAI) {
@@ -64,7 +106,6 @@ app.post("/api/gemini", async (req, res) => {
       });
     }
 
-    // Call Gemini API using gemini-1.5-flash
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
       systemInstruction: SYSTEM_PROMPT,
@@ -72,7 +113,18 @@ app.post("/api/gemini", async (req, res) => {
 
     const fullPrompt = `Mode: ${mode}\nTarget Language: ${lang}\nUser Inquiry: ${prompt}\n\nProvide an authoritative, clear, and reassuring response.`;
     const result = await model.generateContent(fullPrompt);
-    const text = result.response.text();
+    const text = result?.response?.text ? result.response.text().trim() : "";
+
+    // If response text is empty or blank, fall back gracefully
+    if (!text) {
+      const fallback = getLocalFallback(prompt, mode);
+      return res.json({
+        text: fallback.text,
+        classification: fallback.classification,
+        mode,
+        source: "fallback",
+      });
+    }
 
     let classification = "info";
     const lowerText = text.toLowerCase();
@@ -96,13 +148,4 @@ app.post("/api/gemini", async (req, res) => {
       source: "fallback",
     });
   }
-});
-
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", geminiConfigured: !!genAI, timestamp: new Date().toISOString() });
-});
-
-app.listen(port, "127.0.0.1", () => {
-  console.log(`🏛️ Census 2027 Gemini Proxy listening on http://127.0.0.1:${port}`);
-});
-
+}

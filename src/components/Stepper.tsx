@@ -47,7 +47,7 @@ export default function Stepper({ steps, currentIndex, onStepClick }: StepperPro
 
       {steps.map((step, i) => {
         const state = i < currentIndex ? "done" : i === currentIndex ? "current" : "upcoming";
-        const clickable = state === "done" && onStepClick;
+        const clickable = i !== currentIndex && !!onStepClick;
 
         let iconColor = "var(--color-ink-soft)";
         let bgColor = "var(--color-paper)";

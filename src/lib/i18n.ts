@@ -1,4 +1,4 @@
-// Pre-generated translation dictionary for India's 6 official/widely spoken languages
+﻿// Pre-generated translation dictionary for India's 6 official/widely spoken languages
 // Supporting the hackathon requirement for Indian language accessibility without risking latency.
 
 export type LanguageCode = "en" | "hi" | "mr" | "ta" | "bn" | "kn";
@@ -51,7 +51,25 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     btn_submit_another: "Submit another household",
     enum_submitted_title: "Self-enumeration submitted",
     enum_intro: "Complete this form for your household. You can go back to any completed step to make changes before submitting.",
-    
+
+    // Confirmation Slip
+    receipt_gov_label: "Government of India · Digital Census",
+    receipt_ref_label: "Reference Number",
+    receipt_jurisdiction_label: "Jurisdiction & Household",
+    receipt_members_suffix: "Member(s)",
+    receipt_timestamp_label: "Submission Timestamp",
+    receipt_field_verify_title: "Field Verification Procedure:",
+    receipt_field_verify_body: "Present this Reference Slip or QR code to the official enumerator when they visit your household for rapid one-touch verification.",
+    receipt_print_btn: "Print / Save Slip",
+    receipt_surveyor_scan: "SURVEYOR SCAN",
+
+    // Validation Errors
+    err_required_banner: "Please answer all required questions highlighted below before proceeding.",
+    err_select_option: "Please select an option.",
+    err_yes_no: "Please select Yes or No.",
+    err_field_empty: "This field cannot be empty.",
+    err_number_invalid: "Must be a whole number greater than 0.",
+
     // Privacy & Myths
     privacy_heading: "Privacy, Data Protection & Misinformation",
     privacy_subheading: "Your answers are legally sealed under Section 15 of the Census Act, 1948. Understand the safeguards and verify facts with our AI Assistant.",
@@ -59,7 +77,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     legal_title: "The Census Act, 1948 & DPDP Act, 2023",
     legal_p1: "Individual census data cannot be accessed by police, tax departments, courts, or commercial entities.",
     legal_p2: "Data is transmitted using 256-bit encryption directly to the sovereign Government of India Census Data Centre.",
-    
+
     // ChatAssist
     chat_title: "Census 2027 AI Civic Assistant",
     chat_subtitle: "Ask questions about the census process, privacy guarantees, or verify common rumors.",
@@ -67,7 +85,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     chat_send: "Ask Assistant",
     chat_suggested: "Frequently Asked Questions & Rumor Verification",
 
-    // Footer
+    // Theme & Disclaimer
+    theme_toggle_dark: "Switch to dark mode",
+    theme_toggle_light: "Switch to light mode",
+    disclaimer_text: "Unofficial student hackathon prototype — not affiliated with the Government of India or the Census of India.",
     footer_text: "Built for PromptWars × ADYPU — hackathon submission. Not an official Government of India property.",
   },
 
@@ -104,6 +125,24 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     enum_submitted_title: "स्व-गणना सफलतापूर्वक जमा की गई",
     enum_intro: "अपने परिवार के लिए यह फॉर्म भरें। जमा करने से पहले आप किसी भी चरण में सुधार कर सकते हैं।",
 
+    // Confirmation Slip
+    receipt_gov_label: "भारत सरकार · डिजिटल जनगणना",
+    receipt_ref_label: "संदर्भ संख्या",
+    receipt_jurisdiction_label: "कार्यक्षेत्र एवं परिवार",
+    receipt_members_suffix: "सदस्य",
+    receipt_timestamp_label: "जमा करने का समय",
+    receipt_field_verify_title: "क्षेत्र सत्यापन प्रक्रिया:",
+    receipt_field_verify_body: "त्वरित सत्यापन के लिए जब आधिकारिक प्रगणक आपके घर आएं, तो यह संदर्भ पर्ची या क्यूआर कोड दिखाएं।",
+    receipt_print_btn: "पर्ची प्रिंट / सेव करें",
+    receipt_surveyor_scan: "प्रगणक स्कैन",
+
+    // Validation Errors
+    err_required_banner: "कृपया आगे बढ़ने से पहले नीचे चिन्हांकित सभी अनिवार्य प्रश्नों के उत्तर दें।",
+    err_select_option: "कृपया एक विकल्प चुनें।",
+    err_yes_no: "कृपया हाँ या ना चुनें।",
+    err_field_empty: "यह विवरण खाली नहीं छोड़ा जा सकता।",
+    err_number_invalid: "0 से अधिक पूर्णांक होना चाहिए।",
+
     // Privacy & Myths
     privacy_heading: "गोपनीयता, डेटा सुरक्षा और भ्रांतियों का निवारण",
     privacy_subheading: "आपकी व्यक्तिगत जानकारी जनगणना अधिनियम, 1948 की धारा 15 के तहत पूरी तरह गोपनीय और सुरक्षित है।",
@@ -119,7 +158,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     chat_send: "पूछें",
     chat_suggested: "अक्सर पूछे जाने वाले प्रश्न और अफवाहों का सच",
 
-    // Footer
+    // Theme & Disclaimer
+    theme_toggle_dark: "डार्क मोड पर स्विच करें",
+    theme_toggle_light: "लाइट मोड पर स्विच करें",
+    disclaimer_text: "अनौपचारिक छात्र हैकथॉन प्रोटोटाइप — भारत सरकार या भारत की जनगणना से संबद्ध नहीं है।",
     footer_text: "PromptWars × ADYPU के लिए विकसित। भारत सरकार की आधिकारिक वेबसाइट नहीं है।",
   },
 
@@ -156,6 +198,24 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     enum_submitted_title: "स्वयं-नोंदणी यशस्वीरीत्या सादर केली",
     enum_intro: "तुमच्या कुटुंबासाठी हा अर्ज पूर्ण करा. सबमिट करण्यापूर्वी तुम्ही कोणत्याही टप्प्यात बदल करू शकता.",
 
+    // Confirmation Slip
+    receipt_gov_label: "भारत सरकार · डिजिटल जनगणना",
+    receipt_ref_label: "संदर्भ क्रमांक",
+    receipt_jurisdiction_label: "अधिकारक्षेत्र आणि कुटुंब",
+    receipt_members_suffix: "सदस्य",
+    receipt_timestamp_label: "नोंदणीची वेळ",
+    receipt_field_verify_title: "क्षेत्र पडताळणी प्रक्रिया:",
+    receipt_field_verify_body: "त्वरित पडताळणीसाठी जेव्हा अधिकृत प्रगणक तुमच्या घरी येतील, तेव्हा ही संदर्भ पावती किंवा क्यूआर कोड दाखवा.",
+    receipt_print_btn: "पावती प्रिंट / सेव्ह करा",
+    receipt_surveyor_scan: "प्रगणक स्कॅन",
+
+    // Validation Errors
+    err_required_banner: "कृपया पुढे जाण्यापूर्वी खाली दर्शवलेल्या सर्व आवश्यक प्रश्नांची उत्तरे द्या.",
+    err_select_option: "कृपया एक पर्याय निवडा.",
+    err_yes_no: "कृपया होय किंवा नाही निवडा.",
+    err_field_empty: "हा रकाना रिक्त ठेवता येणार नाही.",
+    err_number_invalid: "0 पेक्षा मोठी पूर्णांक संख्या असणे आवश्यक आहे.",
+
     // Privacy & Myths
     privacy_heading: "गोपनीयता, डेटा संरक्षण आणि गैरसमज निवारण",
     privacy_subheading: "जनगणना कायदा १९४८ च्या कलम १५ अन्वये तुमची माहिती पूर्णतः गोपनीय आहे.",
@@ -171,7 +231,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     chat_send: "विचारा",
     chat_suggested: "वारंवार विचारले जाणारे प्रश्न आणि अफवांचे सत्य",
 
-    // Footer
+    // Theme & Disclaimer
+    theme_toggle_dark: "डार्क मोडवर स्विच करा",
+    theme_toggle_light: "लाइट मोडवर स्विच करा",
+    disclaimer_text: "अनधिकृत विद्यार्थी हॅकॅथॉन प्रोटोटाइप — भारत सरकार किंवा भारताच्या जनगणनेशी संलग्न नाही.",
     footer_text: "PromptWars × ADYPU हॅकॅथॉनसाठी निर्मित. भारत सरकारची अधिकृत मालमत्ता नाही.",
   },
 
@@ -208,6 +271,24 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     enum_submitted_title: "சுய-கணக்கெடுப்பு சமர்ப்பிக்கப்பட்டது",
     enum_intro: "உங்கள் குடும்பத்திற்கான படிவத்தை பூர்த்தி செய்யவும்.",
 
+    // Confirmation Slip
+    receipt_gov_label: "இந்திய அரசு · டிஜிட்டல் மக்கள் தொகை கணக்கெடுப்பு",
+    receipt_ref_label: "குறிப்பு எண்",
+    receipt_jurisdiction_label: "அதிகார வரம்பு & குடும்பம்",
+    receipt_members_suffix: "உறுப்பினர்(கள்)",
+    receipt_timestamp_label: "சமர்ப்பித்த நேரம்",
+    receipt_field_verify_title: "கள சரிபார்ப்பு நடைமுறை:",
+    receipt_field_verify_body: "விரைவான ஒருமுறை சரிபார்ப்பிற்கு அதிகாரப்பூர்வ கணக்கெடுப்பாளர் உங்கள் வீட்டிற்கு வரும்போது இந்த குறிப்பு சீட்டு அல்லது QR குறியீட்டைக் காட்டவும்.",
+    receipt_print_btn: "சீட்டை அச்சிட / சேமிக்க",
+    receipt_surveyor_scan: "கணக்கெடுப்பாளர் ஸ்கேன்",
+
+    // Validation Errors
+    err_required_banner: "தொடர்வதற்கு முன் கீழே குறிப்பிடப்பட்டுள்ள அனைத்து கட்டாய கேள்விகளுக்கும் பதிலளிக்கவும்.",
+    err_select_option: "தயவுசெய்து ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்.",
+    err_yes_no: "தயவுசெய்து ஆம் அல்லது இல்லை என்பதைத் தேர்ந்தெடுக்கவும்.",
+    err_field_empty: "இந்த புலம் காலியாக இருக்கக்கூடாது.",
+    err_number_invalid: "0 ஐ விட அதிகமான முழு எண்ணாக இருக்க வேண்டும்.",
+
     // Privacy & Myths
     privacy_heading: "தனியுரிமை, தரவு பாதுகாப்பு மற்றும் வதந்திகள் தீர்வு",
     privacy_subheading: "மக்கள் தொகை கணக்கெடுப்பு சட்டம் 1948 பிரிவு 15 இன் கீழ் உங்கள் விவரங்கள் பாதுகாக்கப்படுகின்றன.",
@@ -223,7 +304,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     chat_send: "கேட்கவும்",
     chat_suggested: "அடிக்கடி கேட்கப்படும் கேள்விகள்",
 
-    // Footer
+    // Theme & Disclaimer
+    theme_toggle_dark: "இருண்ட பயன்முறைக்கு மாறவும்",
+    theme_toggle_light: "வெளிச்ச பயன்முறைக்கு மாறவும்",
+    disclaimer_text: "அதிகாரப்பூர்வமற்ற மாணவர் ஹேக்கத்தான் மாதிரி — இந்திய அரசு அல்லது இந்திய மக்கள் தொகை கணக்கெடுப்புடன் இணைக்கப்படவில்லை.",
     footer_text: "PromptWars × ADYPU க்காக உருவாக்கப்பட்டது. அதிகாரப்பூர்வ அரசு தளம் அல்ல.",
   },
 
@@ -260,6 +344,24 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     enum_submitted_title: "স্ব-গণনা সফলভাবে জমা হয়েছে",
     enum_intro: "আপনার পরিবারের জন্য এই ফর্মটি পূরণ করুন।",
 
+    // Confirmation Slip
+    receipt_gov_label: "ভারত সরকার · ডিজিটাল আদমশুমারি",
+    receipt_ref_label: "রেফারেন্স নম্বর",
+    receipt_jurisdiction_label: "এলাকা ও পরিবার",
+    receipt_members_suffix: "সদস্য",
+    receipt_timestamp_label: "জমা দেওয়ার সময়",
+    receipt_field_verify_title: "মাঠ পর্যায়ের যাচাইকরণ পদ্ধতি:",
+    receipt_field_verify_body: "দ্রুত যাচাইকরণের জন্য সরকারি গণনাকারী আপনার বাড়িতে এলে এই রেফারেন্স স্লিপ বা কিউআর কোডটি দেখান।",
+    receipt_print_btn: "স্লিপ প্রিন্ট / সংরক্ষণ করুন",
+    receipt_surveyor_scan: "গণনাকারী স্ক্যান",
+
+    // Validation Errors
+    err_required_banner: "অনুগ্রহ করে এগিয়ে যাওয়ার আগে নিচে চিহ্নিত সমস্ত আবশ্যক প্রশ্নের উত্তর দিন।",
+    err_select_option: "অনুগ্রহ করে একটি বিকল্প নির্বাচন করুন।",
+    err_yes_no: "অনুগ্রহ করে হ্যাঁ অথবা না নির্বাচন করুন।",
+    err_field_empty: "এই ঘরটি ফাঁকা রাখা যাবে না।",
+    err_number_invalid: "০ এর চেয়ে বড় একটি পূর্ণসংখ্যা হতে হবে।",
+
     // Privacy & Myths
     privacy_heading: "গোপনীয়তা, ডেটা সুরক্ষা এবং বিভ্রান্তি নিরসন",
     privacy_subheading: "আদমশুমারি আইন ১৯৪৮-এর ধারা ১৫ অনুযায়ী আপনার তথ্য সম্পূর্ণরূপে গোপনীয়।",
@@ -275,7 +377,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     chat_send: "জিজ্ঞাসা করুন",
     chat_suggested: "সাধারণ প্রশ্নাবলী ও গুজবের সত্যতা",
 
-    // Footer
+    // Theme & Disclaimer
+    theme_toggle_dark: "ডার্ক মোডে পরিবর্তন করুন",
+    theme_toggle_light: "লাইট মোডে পরিবর্তন করুন",
+    disclaimer_text: "অনানুষ্ঠানিক ছাত্র হ্যাকাথন প্রোটোটাইপ — ভারত সরকার বা ভারতের আদমশুমারির সাথে সম্পর্কিত নয়।",
     footer_text: "PromptWars × ADYPU হ্যাকাথনের জন্য নির্মিত। ভারত সরকারের প্রাতিষ্ঠানিক সাইট নয়।",
   },
 
@@ -312,6 +417,24 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     enum_submitted_title: "ಸ್ವಯಂ-ಗಣತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ",
     enum_intro: "ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕಾಗಿ ಈ ಫಾರ್ಮ್ ಅನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ.",
 
+    // Confirmation Slip
+    receipt_gov_label: "ಭಾರತ ಸರ್ಕಾರ · ಡಿಜಿಟಲ್ ಜನಗಣತಿ",
+    receipt_ref_label: "ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ",
+    receipt_jurisdiction_label: "ವ್ಯಾಪ್ತಿ ಮತ್ತು ಕುಟುಂಬ",
+    receipt_members_suffix: "ಸದಸ್ಯರು",
+    receipt_timestamp_label: "ಸಲ್ಲಿಸಿದ ಸಮಯ",
+    receipt_field_verify_title: "ಕ್ಷೇತ್ರ ಪರಿಶೀಲನಾ ವಿಧಾನ:",
+    receipt_field_verify_body: "ತ್ವರಿತ ಪರಿಶೀಲನೆಗಾಗಿ ಅಧಿಕೃತ ಗಣತಿದಾರರು ನಿಮ್ಮ ಮನೆಗೆ ಭೇಟಿ ನೀಡಿದಾಗ ಈ ಉಲ್ಲೇಖ ಚೀಟಿ ಅಥವಾ ಕ್ಯೂಆರ್ ಕೋಡ್ ಅನ್ನು ತೋರಿಸಿ.",
+    receipt_print_btn: "ರಶೀದಿ ಮುದ್ರಿಸಿ / ಉಳಿಸಿ",
+    receipt_surveyor_scan: "ಗಣತಿದಾರರ ಸ್ಕ್ಯಾನ್",
+
+    // Validation Errors
+    err_required_banner: "ದಯವಿಟ್ಟು ಮುಂದುವರಿಯುವ ಮೊದಲು ಕೆಳಗೆ ಗುರುತಿಸಲಾದ ಎಲ್ಲಾ ಅಗತ್ಯ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ.",
+    err_select_option: "ದಯವಿಟ್ಟು ಒಂದು ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ.",
+    err_yes_no: "ದಯವಿಟ್ಟು ಹೌದು ಅಥವಾ ಇಲ್ಲ ಆಯ್ಕೆಮಾಡಿ.",
+    err_field_empty: "ಈ ಕ್ಷೇತ್ರವನ್ನು ಖಾಲಿ ಬಿಡುವಂತಿಲ್ಲ.",
+    err_number_invalid: "0 ಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಪೂರ್ಣಾಂಕವಾಗಿರಬೇಕು.",
+
     // Privacy & Myths
     privacy_heading: "ಗೌಪ್ಯತೆ, ಡೇಟಾ ರಕ್ಷಣೆ ಮತ್ತು ವದಂತಿಗಳ ಸತ್ಯ",
     privacy_subheading: "ಜನಗಣತಿ ಕಾಯ್ದೆ 1948 ರ ಸೆಕ್ಷನ್ 15 ರ ಅಡಿಯಲ್ಲಿ ನಿಮ್ಮ ಮಾಹಿತಿ ಸಂಪೂರ್ಣ ರಕ್ಷಿತವಾಗಿದೆ.",
@@ -327,7 +450,10 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     chat_send: "ಕೇಳಿ",
     chat_suggested: "ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳು ಮತ್ತು ಸತ್ಯ ಸಂಗತಿಗಳು",
 
-    // Footer
+    // Theme & Disclaimer
+    theme_toggle_dark: "ಡಾರ್ಕ್ ಮೋಡ್‌ಗೆ ಬದಲಿಸಿ",
+    theme_toggle_light: "ಲೈಟ್ ಮೋಡ್‌ಗೆ ಬದಲಿಸಿ",
+    disclaimer_text: "ಅನಧಿಕೃತ ವಿದ್ಯಾರ್ಥಿ ಹ್ಯಾಕಥಾನ್ ಮೂಲಮಾದರಿ — ಭಾರತ ಸರ್ಕಾರ ಅಥವಾ ಭಾರತೀಯ ಜನಗಣತಿಯೊಂದಿಗೆ ಸಂಯೋಜಿತವಾಗಿಲ್ಲ.",
     footer_text: "PromptWars × ADYPU ಗಾಗಿ ಅಭಿವೃದ್ಧಿಪಡಿಸಲಾಗಿದೆ. ಭಾರತ ಸರ್ಕಾರದ ಅಧಿಕೃತ ತಾಣವಲ್ಲ.",
   },
 };

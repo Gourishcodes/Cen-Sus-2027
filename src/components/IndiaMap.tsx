@@ -49,7 +49,7 @@ const INDIA_STATE_PATHS: StatePath[] = [
     code: "GJ",
     name: "Gujarat",
     center: [140, 340],
-    path: "M 110,310 L 165,305 L 185,340 L 175,375 L 135,385 L 105,355 L 115,335 Z",
+    path: "M 115,295 L 165,300 L 185,335 L 175,375 L 140,380 L 135,360 L 105,355 L 100,335 L 125,325 L 110,305 Z",
   },
   {
     code: "RJ",
@@ -91,7 +91,7 @@ const INDIA_STATE_PATHS: StatePath[] = [
     code: "PB",
     name: "Punjab & Haryana",
     center: [210, 175],
-    path: "M 190,145 L 235,140 L 240,195 L 200,205 Z",
+    path: "M 185,140 L 210,138 L 245,130 L 250,155 L 260,185 L 235,195 L 195,205 L 180,165 Z",
   },
   {
     code: "BR",
@@ -102,14 +102,14 @@ const INDIA_STATE_PATHS: StatePath[] = [
   {
     code: "JK",
     name: "Jammu & Kashmir / Ladakh",
-    center: [215, 100],
-    path: "M 180,60 L 255,50 L 260,120 L 210,135 L 175,100 Z",
+    center: [225, 85],
+    path: "M 175,105 L 180,70 L 205,35 L 225,30 L 245,40 L 265,65 L 268,115 L 245,130 L 210,138 Z",
   },
   {
     code: "NE",
     name: "North East States",
-    center: [430, 260],
-    path: "M 400,225 L 465,220 L 475,275 L 435,300 L 405,275 Z",
+    center: [435, 255],
+    path: "M 390,240 L 405,215 L 435,195 L 470,200 L 485,245 L 460,285 L 440,305 L 415,280 L 405,250 Z",
   },
 ];
 

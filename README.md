@@ -10,7 +10,7 @@
 | Rubric Area | Implementation Details |
 |---|---|
 | **Problem Statement Alignment** | Fully explains Phase 1 (Housing & Amenities) vs. Phase 2 (Population Enumeration), presents state schedules, guides digital self-enumeration with stepper & QR token, combats rumors citing Census Act 1948, and visualizes progress data. |
-| **Google Services & GenAI** | Integrated with **Google Gemini API** (`@google/generative-ai`) via a zero-leak server-side proxy for interactive civic guidance, rumor verification, and multi-language translation. Deployable to Firebase Hosting & Cloud Functions. |
+| **Google Services & GenAI** | Integrated with **Google Gemini API** (`@google/generative-ai`) via a zero-leak server-side proxy for interactive civic guidance, rumor verification, and multi-language translation. Primary production deployment on **Vercel Serverless Functions** (`api/gemini.ts`), with alternate deployment path for Firebase Functions (`functions/gemini-proxy.ts`). |
 | **Multi-Language Accessibility** | Instant zero-latency UI translation across **6 Indian Languages** (English, हिन्दी, मराठी, தமிழ், বাংলা, ಕನ್ನಡ) with pre-cached dictionaries and live GenAI fallback. |
 | **Code Quality & Security** | Server-side API key isolation (`GEMINI_API_KEY` never enters browser JS), TypeScript strict mode, clean modular design, and robust fallback handlers. |
 | **Testing & Reliability** | **100% Passing Automated Tests** via Vitest & React Testing Library across 5 dedicated test suites (`phaseData`, `formSubmit`, `dataVisual`, `chatAssist`, `languageSwitch`). |
@@ -67,26 +67,33 @@ npm run build
 
 ```
 census2027/
+├── api/
+│   ├── gemini.ts                # Vercel Serverless Function (production proxy with rate limiting)
+│   └── health.ts                # Health-check endpoint
 ├── server/
-│   └── index.ts                 # Express Gemini proxy (keeps API key secure)
+│   └── index.ts                 # Express proxy for local dev (`npm run dev`)
 ├── functions/
-│   └── gemini-proxy.ts          # Firebase Cloud Function entrypoint
+│   └── gemini-proxy.ts          # [Alternate/Unused] Firebase Cloud Function entrypoint
 ├── src/
 │   ├── components/
 │   │   ├── ChatAssist.tsx       # AI civic assistant & rumor buster
+│   │   ├── IndiaMap.tsx         # Interactive Survey of India SVG Map
 │   │   ├── LanguageSwitcher.tsx # Multi-language selector
+│   │   ├── ThemeToggle.tsx      # Dark / Light mode toggle
 │   │   ├── Stepper.tsx          # Numbered paper-form stepper
 │   │   └── icons.tsx            # Lightweight inline SVG icons
 │   ├── context/
-│   │   └── LanguageContext.tsx  # Global reactive i18n state provider
+│   │   ├── LanguageContext.tsx  # Global reactive i18n state provider
+│   │   └── ThemeContext.tsx     # Dark / Light theme provider (persisted)
 │   ├── data/
+│   │   ├── censusFallbacks.ts   # Unified 6-topic statutory fallback answers
 │   │   ├── censusStats.ts       # State enumeration progress metrics
 │   │   ├── phases.ts            # Phase 1 & Phase 2 definitions
 │   │   ├── questions.ts         # Schema-driven self-enumeration questions
 │   │   └── states.ts            # State windows & schedules
 │   ├── lib/
-│   │   ├── geminiClient.ts      # Client-side API caller with fallback
-│   │   └── i18n.ts              # Pre-cached translation dictionaries
+│   │   ├── geminiClient.ts      # Client-side API caller with 8s timeout & fallback
+│   │   └── i18n.ts              # Pre-cached translation dictionaries (6 languages)
 │   ├── pages/
 │   │   ├── Home.tsx             # Gazette table-of-contents noticeboard
 │   │   ├── Phases.tsx           # Two Phases explanation & data parameters

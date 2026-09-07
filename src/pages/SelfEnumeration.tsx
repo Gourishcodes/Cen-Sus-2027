@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState, useRef } from "react";
 import Stepper from "../components/Stepper";
 import { enumerationSteps } from "../data/questions";
 import { CheckCircleIcon, PeopleIcon, DocumentIcon } from "../components/icons";
@@ -7,9 +7,15 @@ import { useLanguage } from "../context/LanguageContext";
 
 type Answers = Record<string, string | number | boolean>;
 
+const LOCAL_STORAGE_LAST_RECORD_KEY = "cen2027_last_record";
+
 function buildRecord(answers: Answers): EnumerationRecord {
+  const uuid = typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+    ? crypto.randomUUID()
+    : `${Math.random().toString(36).substring(2, 9)}-${Date.now()}`;
+
   return {
-    id: `CEN2027-${Math.random().toString(36).substring(2, 7).toUpperCase()}-${Date.now().toString().slice(-4)}`,
+    id: `CEN2027-${uuid}`,
     timestampSubmitted: new Date().toISOString(),
     stateCode: String(answers.state ?? ""),
     language: String(answers.language ?? "English"),
@@ -24,29 +30,89 @@ export default function SelfEnumeration() {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [errors, setErrors] = useState<string[]>([]);
-  const [submittedRecord, setSubmittedRecord] = useState<EnumerationRecord | null>(null);
+  const [numberErrors, setNumberErrors] = useState<string[]>([]);
+  const [submittedRecord, setSubmittedRecord] = useState<EnumerationRecord | null>(() => {
+    try {
+      const saved = localStorage.getItem(LOCAL_STORAGE_LAST_RECORD_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
 
+  const errorAlertRef = useRef<HTMLDivElement>(null);
   const step = enumerationSteps[stepIndex];
   const isLastStep = stepIndex === enumerationSteps.length - 1;
 
   function setAnswer(id: string, value: string | number | boolean) {
     setAnswers((prev) => ({ ...prev, [id]: value }));
     setErrors((prev) => prev.filter((errId) => errId !== id));
+    setNumberErrors((prev) => prev.filter((errId) => errId !== id));
   }
 
-  function validateStep(): boolean {
-    const missing = step.questions
-      .filter((q) => q.required)
-      .filter((q) => answers[q.id] === undefined || answers[q.id] === "")
-      .map((q) => q.id);
-    setErrors(missing);
-    return missing.length === 0;
+  function focusError() {
+    setTimeout(() => {
+      if (errorAlertRef.current) {
+        errorAlertRef.current.focus();
+        if (typeof errorAlertRef.current.scrollIntoView === "function") {
+          errorAlertRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      } else {
+        const firstInvalid = document.querySelector<HTMLElement>('[aria-invalid="true"]');
+        if (firstInvalid) {
+          firstInvalid.focus();
+          if (typeof firstInvalid.scrollIntoView === "function") {
+            firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
+      }
+    }, 50);
+  }
+
+  function getStepValidation(idx: number): { missing: string[]; invalidNumbers: string[] } {
+    const targetStep = enumerationSteps[idx];
+    const missing: string[] = [];
+    const invalidNumbers: string[] = [];
+
+    for (const q of targetStep.questions) {
+      const val = answers[q.id];
+      const isEmpty = val === undefined || val === null || val === "";
+
+      if (q.required && isEmpty) {
+        missing.push(q.id);
+      } else if (!isEmpty && q.type === "number") {
+        const numVal = Number(val);
+        if (isNaN(numVal) || numVal <= 0 || !Number.isInteger(numVal)) {
+          invalidNumbers.push(q.id);
+        }
+      }
+    }
+
+    return { missing, invalidNumbers };
+  }
+
+  function validateStep(idx: number = stepIndex): boolean {
+    const { missing, invalidNumbers } = getStepValidation(idx);
+    const combinedErrors = [...missing, ...invalidNumbers];
+    setErrors(combinedErrors);
+    setNumberErrors(invalidNumbers);
+    return combinedErrors.length === 0;
   }
 
   function handleNext() {
-    if (!validateStep()) return;
+    if (!validateStep(stepIndex)) {
+      focusError();
+      return;
+    }
     if (isLastStep) {
-      setSubmittedRecord(buildRecord(answers));
+      const record = buildRecord(answers);
+      try {
+        localStorage.setItem(LOCAL_STORAGE_LAST_RECORD_KEY, JSON.stringify(record));
+        localStorage.setItem(`cen2027_record_${record.id}`, JSON.stringify(record));
+      } catch (err) {
+        console.warn("Failed to persist record to localStorage:", err);
+      }
+      setSubmittedRecord(record);
     } else {
       setStepIndex((i) => i + 1);
     }
@@ -54,7 +120,33 @@ export default function SelfEnumeration() {
 
   function handleBack() {
     setErrors([]);
+    setNumberErrors([]);
     setStepIndex((i) => Math.max(0, i - 1));
+  }
+
+  function handleStepClick(targetIndex: number) {
+    if (targetIndex <= stepIndex) {
+      setErrors([]);
+      setNumberErrors([]);
+      setStepIndex(targetIndex);
+      return;
+    }
+
+    // Validate all intervening steps
+    for (let s = 0; s < targetIndex; s++) {
+      const { missing, invalidNumbers } = getStepValidation(s);
+      if (missing.length > 0 || invalidNumbers.length > 0) {
+        setStepIndex(s);
+        setErrors([...missing, ...invalidNumbers]);
+        setNumberErrors(invalidNumbers);
+        focusError();
+        return;
+      }
+    }
+
+    setErrors([]);
+    setNumberErrors([]);
+    setStepIndex(targetIndex);
   }
 
   if (submittedRecord) {
@@ -62,6 +154,7 @@ export default function SelfEnumeration() {
       <div style={{ maxWidth: "34rem", margin: "1.5rem auto", textAlign: "center" }}>
         {/* Civic Gazette Digital Receipt Slip */}
         <div
+          className="receipt-slip"
           style={{
             background: "var(--color-paper-raised)",
             border: "2px dashed var(--color-line)",
@@ -77,7 +170,7 @@ export default function SelfEnumeration() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "1px solid var(--color-line)", paddingBottom: "1rem" }}>
             <div>
               <span style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--color-ink-soft)", fontWeight: 600 }}>
-                Government of India · Digital Census
+                {t("receipt_gov_label")}
               </span>
               <h2 style={{ margin: "0.25rem 0 0", fontSize: "1.35rem", color: "var(--color-ink)" }}>
                 {t("enum_submitted_title")}
@@ -105,21 +198,21 @@ export default function SelfEnumeration() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1.5rem", alignItems: "center" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--color-ink-soft)", textTransform: "uppercase" }}>Reference Number</span>
+                <span style={{ fontSize: "0.75rem", color: "var(--color-ink-soft)", textTransform: "uppercase" }}>{t("receipt_ref_label")}</span>
                 <div style={{ fontFamily: "var(--font-display)", fontSize: "1.2rem", fontWeight: 700, color: "var(--color-accent)" }}>
                   {submittedRecord.id}
                 </div>
               </div>
 
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--color-ink-soft)", textTransform: "uppercase" }}>Jurisdiction &amp; Household</span>
+                <span style={{ fontSize: "0.75rem", color: "var(--color-ink-soft)", textTransform: "uppercase" }}>{t("receipt_jurisdiction_label")}</span>
                 <div style={{ fontSize: "0.95rem", fontWeight: 500 }}>
-                  {submittedRecord.stateCode || "State Jurisdiction"} · {submittedRecord.householdSize} Member(s)
+                  {submittedRecord.stateCode || "State Jurisdiction"} · {submittedRecord.householdSize} {t("receipt_members_suffix")}
                 </div>
               </div>
 
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--color-ink-soft)", textTransform: "uppercase" }}>Submission Timestamp</span>
+                <span style={{ fontSize: "0.75rem", color: "var(--color-ink-soft)", textTransform: "uppercase" }}>{t("receipt_timestamp_label")}</span>
                 <div style={{ fontSize: "0.85rem", color: "var(--color-ink-soft)" }}>
                   {new Date(submittedRecord.timestampSubmitted).toLocaleString()}
                 </div>
@@ -160,7 +253,7 @@ export default function SelfEnumeration() {
                 <rect x="44" y="80" width="8" height="8" fill="#B5482E" />
               </svg>
               <span style={{ display: "block", fontSize: "0.65rem", color: "var(--color-ink-soft)", marginTop: "0.25rem", fontWeight: 600 }}>
-                SURVEYOR SCAN
+                {t("receipt_surveyor_scan")}
               </span>
             </div>
           </div>
@@ -177,7 +270,7 @@ export default function SelfEnumeration() {
               lineHeight: 1.45,
             }}
           >
-            <strong style={{ color: "var(--color-ink)" }}>Field Verification Procedure:</strong> Present this Reference Slip or QR code to the official enumerator when they visit your household for rapid one-touch verification.
+            <strong style={{ color: "var(--color-ink)" }}>{t("receipt_field_verify_title")}</strong> {t("receipt_field_verify_body")}
           </div>
 
           {/* Action buttons */}
@@ -189,14 +282,19 @@ export default function SelfEnumeration() {
               style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.6rem 1.2rem" }}
             >
               <DocumentIcon size={16} />
-              Print / Save Slip
+              {t("receipt_print_btn")}
             </button>
             <button
               type="button"
               onClick={() => {
+                try {
+                  localStorage.removeItem(LOCAL_STORAGE_LAST_RECORD_KEY);
+                } catch {}
                 setSubmittedRecord(null);
                 setAnswers({});
                 setStepIndex(0);
+                setErrors([]);
+                setNumberErrors([]);
               }}
               style={{
                 background: "none",
@@ -204,6 +302,8 @@ export default function SelfEnumeration() {
                 padding: "0.6rem 1.2rem",
                 borderRadius: "var(--radius)",
                 fontSize: "0.9rem",
+                cursor: "pointer",
+                color: "var(--color-ink)",
               }}
             >
               {t("btn_submit_another")}
@@ -242,10 +342,7 @@ export default function SelfEnumeration() {
         <Stepper
           steps={enumerationSteps.map((s) => ({ id: s.id, title: s.title }))}
           currentIndex={stepIndex}
-          onStepClick={(i) => {
-            setErrors([]);
-            setStepIndex(i);
-          }}
+          onStepClick={handleStepClick}
         />
 
         <form
@@ -259,6 +356,8 @@ export default function SelfEnumeration() {
 
           {errors.length > 0 && (
             <div
+              ref={errorAlertRef}
+              tabIndex={-1}
               role="alert"
               style={{
                 background: "var(--color-error-soft)",
@@ -272,10 +371,11 @@ export default function SelfEnumeration() {
                 display: "flex",
                 alignItems: "center",
                 gap: "0.5rem",
+                outline: "none",
               }}
             >
               <span>⚠️</span>
-              <span>Please answer all required questions highlighted below before proceeding.</span>
+              <span>{t("err_required_banner")}</span>
             </div>
           )}
 
@@ -283,6 +383,7 @@ export default function SelfEnumeration() {
             {step.questions.map((q) => {
               const fieldId = `field-${q.id}`;
               const hasError = errors.includes(q.id);
+              const isNumberError = numberErrors.includes(q.id);
 
               if (q.type === "select") {
                 return (
@@ -319,7 +420,7 @@ export default function SelfEnumeration() {
                     </select>
                     {hasError && (
                       <span style={{ display: "block", color: "var(--color-error)", fontSize: "0.8rem", marginTop: "0.25rem", fontWeight: 600 }}>
-                        Please select an option.
+                        {t("err_select_option")}
                       </span>
                     )}
                   </div>
@@ -347,7 +448,7 @@ export default function SelfEnumeration() {
                     </div>
                     {hasError && (
                       <span style={{ display: "block", color: "var(--color-error)", fontSize: "0.8rem", marginTop: "0.25rem", fontWeight: 600 }}>
-                        Please select Yes or No.
+                        {t("err_yes_no")}
                       </span>
                     )}
                   </div>
@@ -365,9 +466,10 @@ export default function SelfEnumeration() {
                     aria-required={q.required}
                     aria-invalid={hasError}
                     min={q.type === "number" ? 1 : undefined}
+                    step={q.type === "number" ? 1 : undefined}
                     value={(answers[q.id] as string | number) ?? ""}
                     onChange={(e) =>
-                      setAnswer(q.id, q.type === "number" ? Number(e.target.value) : e.target.value)
+                      setAnswer(q.id, q.type === "number" ? (e.target.value === "" ? "" : Number(e.target.value)) : e.target.value)
                     }
                     style={{
                       width: "100%",
@@ -382,7 +484,7 @@ export default function SelfEnumeration() {
                   />
                   {hasError && (
                     <span style={{ display: "block", color: "var(--color-error)", fontSize: "0.8rem", marginTop: "0.25rem", fontWeight: 600 }}>
-                      This field cannot be empty.
+                      {isNumberError ? t("err_number_invalid") : t("err_field_empty")}
                     </span>
                   )}
                 </div>
@@ -401,6 +503,7 @@ export default function SelfEnumeration() {
                   padding: "0.75rem 1.5rem",
                   borderRadius: "var(--radius)",
                   cursor: "pointer",
+                  color: "var(--color-ink)",
                 }}
               >
                 {t("btn_back")}

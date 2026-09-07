@@ -6,7 +6,9 @@ import SelfEnumeration from "./pages/SelfEnumeration";
 import PrivacyAndMyths from "./pages/PrivacyAndMyths";
 import DataVisual from "./pages/DataVisual";
 import LanguageSwitcher from "./components/LanguageSwitcher";
+import ThemeToggle from "./components/ThemeToggle";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import { HouseIcon, DocumentIcon, CalendarIcon, PeopleIcon, ShieldIcon, ChartIcon } from "./components/icons";
 
 function AppLayout() {
@@ -55,7 +57,10 @@ function AppLayout() {
             </p>
             <h1 style={{ fontSize: "var(--step-3)", color: "var(--color-ink)", margin: "0.15rem 0 0" }}>{t("header_title")}</h1>
           </div>
-          <LanguageSwitcher />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
         </div>
         <hr className="hairline" />
         <nav aria-label="Primary">
@@ -110,7 +115,12 @@ function AppLayout() {
 
       <footer className="container" style={{ padding: "2rem 0", color: "var(--color-ink-soft)", fontSize: "0.85rem" }}>
         <hr className="hairline" />
-        {t("footer_text")}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+          <div>{t("footer_text")}</div>
+          <p style={{ margin: 0, fontSize: "0.78rem", color: "var(--color-ink-subtle)" }}>
+            ⚠️ {t("disclaimer_text")}
+          </p>
+        </div>
       </footer>
     </>
   );
@@ -118,8 +128,10 @@ function AppLayout() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AppLayout />
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <AppLayout />
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

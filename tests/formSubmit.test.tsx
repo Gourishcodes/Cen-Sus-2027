@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import SelfEnumeration from "../src/pages/SelfEnumeration";
@@ -11,6 +11,10 @@ function fillRequiredSelectsAndInputs() {
 }
 
 describe("Self-enumeration form submit", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it("produces a submitted record after all required fields across all steps are filled", () => {
     render(
       <LanguageProvider>
