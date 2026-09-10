@@ -1,5 +1,5 @@
-﻿import { GoogleGenerativeAI } from "@google/generative-ai";
-import { getLocalFallback } from "../src/data/censusFallbacks";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getLocalFallback } from "../src/data/censusFallbacks.js";
 
 const apiKey = process.env.GEMINI_API_KEY;
 let genAI: GoogleGenerativeAI | null = null;
