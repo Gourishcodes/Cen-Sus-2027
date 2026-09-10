@@ -64,9 +64,9 @@ app.post("/api/gemini", async (req, res) => {
       });
     }
 
-    // Call Gemini API using gemini-1.5-flash
+    // Call Gemini API using gemini-flash-latest
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-flash-latest",
       systemInstruction: SYSTEM_PROMPT,
     });
 
