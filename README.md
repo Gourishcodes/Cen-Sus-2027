@@ -120,3 +120,4 @@ census2027/
 - **Voluntary Aadhaar**: Clear statutory clarification that Aadhaar is optional for Census 2027.
 "# Cen-Sus-2027" 
 "# Cen-Sus-2027" 
+loml
